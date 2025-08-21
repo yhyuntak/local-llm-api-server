@@ -1,0 +1,10 @@
+[project]
+name = "local-llm-api-server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.116.1",
+    "mlx-lm>=0.26.3",
+]
