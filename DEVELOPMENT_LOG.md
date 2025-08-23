@@ -1,4 +1,4 @@
-# Local LLM API Server Development Log
+ # Local LLM API Server Development Log
 
 ## 2025-08-21 - Phase 1 완료: OpenAI 호환 API 서버 구축
 
