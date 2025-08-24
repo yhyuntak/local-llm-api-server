@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from chat.router import router as chat_router
 from core.logging import logging_manager
+from core.middleware import LoggingMiddleWare
 from model.model_manager import ModelManager
 
 logger = logging_manager.get_logger(__name__)
@@ -33,6 +34,9 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+# 미들웨어 등록
+app.add_middleware(LoggingMiddleWare)
 
 # 라우터 등록
 app.include_router(chat_router)
