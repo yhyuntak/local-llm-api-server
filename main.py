@@ -1,24 +1,43 @@
+import logging
+import sys
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 
 from chat.router import router as chat_router
 from model.model_manager import ModelManager
 
+# 로그 디렉토리 생성
+log_dir = Path("logs")
+log_dir.mkdir(exist_ok=True)
+
+# 로깅 설정
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler(log_dir / "app.log"),
+        logging.StreamHandler(sys.stdout),
+    ],
+)
+
+logger = logging.getLogger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup logic
     try:
-        print("Loading model...")
+        logger.info("Loading model...")
         app.state.modelManager = ModelManager()
         app.state.modelManager.load_model()
-        print("Model loaded!")
+        logger.info("Model loaded!")
 
         # 여기서 로직이 실행됨
         yield
     except Exception as e:
-        print(f"Startup error: {e}")
+        logger.error(f"Startup error: {e}")
     finally:
         # Shutdown logic
         del app.state.modelManager
