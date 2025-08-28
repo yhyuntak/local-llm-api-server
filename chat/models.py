@@ -37,10 +37,12 @@ class Message(BaseModel):
 class ChatCompletionRequest(BaseModel):
     model: str
     messages: List[Message]
+    num_predict: Optional[int] = 100
+    repeat_penalty: Optional[float] = 0.0  # frequency_penalty 대신 (반복 억제)
     temperature: Optional[float] = 0.0
-    max_tokens: Optional[int] = 100
+    top_k: Optional[int] = 20
     top_p: Optional[float] = 1.0
-    repetition_penalty: Optional[float] = 0.0  # frequency_penalty 대신 (반복 억제)
+    thinking: Optional[bool] = False
 
 
 class Choice(BaseModel):

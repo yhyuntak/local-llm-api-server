@@ -5,7 +5,7 @@ from templates.base import ChatTemplate
 
 
 class QwenTemplate(ChatTemplate):
-    # qwen2.5 7b
+    # qwen3 14b
     def convert_messages(self, messages: List[Message]) -> str:
         prompt = ""
         for message in messages:

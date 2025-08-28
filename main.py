@@ -14,12 +14,9 @@ logger = logging_manager.get_logger(__name__)
 async def lifespan(app: FastAPI):
     # Startup logic
     try:
-        logger.info("Loading model...")
         app.state.modelManager = ModelManager()
-        app.state.modelManager.load_model()
-        logger.info("Model loaded!")
-
-        # 여기서 로직이 실행됨
+    
+        # 여기서 FastAPI 앱이 실행됨
         yield
     except Exception as e:
         logger.error(f"Startup error: {e}")
@@ -30,7 +27,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Local LLM API Server",
-    description="로컬 MLX LLM 모델을 위한 OpenAI 호환 API 서버",
+    description="로컬 Ollama LLM 모델을 위한 OpenAI 호환 API 서버",
     version="0.1.0",
     lifespan=lifespan,
 )
