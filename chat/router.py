@@ -4,6 +4,7 @@ from fastapi import APIRouter, Request
 
 from chat.models import ChatCompletionRequest, ChatCompletionResponse
 from chat.service import process_chat_completion
+from model.model_manager import ModelManager
 
 router = APIRouter(
     prefix="/v1",  # 모든 엔드포인트에 /v1 접두사
@@ -17,6 +18,7 @@ async def chat_completions(
     chatCompletionRequest: ChatCompletionRequest,
 ) -> Optional[ChatCompletionResponse]:
 
-    modelManager = request.app.state.modelManager
+    # 각 요청마다 새로운 ModelManager 생성 (병렬 처리를 위해)
+    modelManager = ModelManager()
 
-    return process_chat_completion(model_manager=modelManager, chat_completion_request=chatCompletionRequest)
+    return await process_chat_completion(model_manager=modelManager, chat_completion_request=chatCompletionRequest)

@@ -8,14 +8,14 @@ from chat.models import ChatCompletionRequest, ChatCompletionResponse, Choice, M
 from model.model_manager import ModelManager
 from templates.service import get_chat_template
 
-def process_chat_completion(model_manager: ModelManager, chat_completion_request: ChatCompletionRequest) -> ChatCompletionResponse:
+async def process_chat_completion(model_manager: ModelManager, chat_completion_request: ChatCompletionRequest) -> ChatCompletionResponse:
     try:
             
         # Strategy + Factory Pattern 방식
         template = get_chat_template(chat_completion_request.model)
         prompt = template.convert_messages(chat_completion_request.messages)
 
-        result = model_manager.generate(prompt, chat_completion_request.thinking, num_predict=chat_completion_request.num_predict, repeat_penalty=chat_completion_request.repeat_penalty, top_k=chat_completion_request.top_k, top_p=chat_completion_request.top_p)
+        result = await model_manager.generate(prompt, chat_completion_request.thinking, num_predict=chat_completion_request.num_predict, repeat_penalty=chat_completion_request.repeat_penalty, top_k=chat_completion_request.top_k, top_p=chat_completion_request.top_p)
 
         if result is None:
             raise HTTPException(status_code=500, detail="Failed to generate response")

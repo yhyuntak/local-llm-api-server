@@ -86,3 +86,6 @@ htmlcov/
 pid
 *.pid
 *.pid.lock
+
+# Performance test results
+performance_test_*.json
